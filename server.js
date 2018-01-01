@@ -22,12 +22,12 @@ var myCollection = new Collection(JSON.parse(fs.readFileSync('mycollection.json'
 //console.log(myCollection.toJSON());
 
 
-app.get('/myapi', function(req, res) {    
-    res.send('Hello World');
+app.get('/', function(req, res) {    
+    res.json({input:'Welcome to 8081'});
 });
 
 
 
 http.createServer(app).listen(8081, function(){
-    console.log("Example of app listning on port 8081");
+    console.log("App listning on port 8081");
 });
