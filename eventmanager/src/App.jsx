@@ -38,7 +38,7 @@ class Events extends React.Component {
     
     componentDidMount(){
         
-        fetch('http://eventmanager-server.herokuapp.com/events')
+        fetch('https://eventmanager-server.herokuapp.com/events')
             .then( (response) => {return response.json(); })
             .then( (data) =>  {
                 
@@ -52,7 +52,7 @@ class Events extends React.Component {
             })
             
             
-        fetch('http://eventmanager-server.herokuapp.com/comments')
+        fetch('https://eventmanager-server.herokuapp.com/comments')
             .then( (response) => {return response.json(); })
             .then( (data) =>  {
             
