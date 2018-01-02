@@ -6,3 +6,7 @@
 * All the important APIs used in this project are present in this [link]('https://www.getpostman.com/collections/765a863c27af1960eba8').
 * To start the application set up the node environment and clone the [repository](https://github.com/falcon1996/cashpositive).
 * Go to **eventmanager** directory and start the react server by `npm start`. 
+
+
+![Image 1](/files/1.PNG)
+![Image 2](/files/2.PNG)
