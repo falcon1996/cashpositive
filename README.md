@@ -8,5 +8,5 @@
 * Go to **eventmanager** directory and start the react server by `npm start`. 
 
 
-![Image 1](/files/1.PNG)
-![Image 2](/files/2.PNG)
+![Image 1](./eventmanager/public/files/1.PNG)
+![Image 2](./eventmanager/public/files/2.PNG)
