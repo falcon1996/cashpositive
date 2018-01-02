@@ -1,13 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import "isomorphic-fetch";
+import timestamp from "unix-timestamp";
 
 class Events extends React.Component {
     
     constructor(props){
         super(props);
         this.state = {
-            event : 'party',
+            
+            filter: '',
+            post: '',
+            organiser: '',
+            date: '',
+            price: '',
             all: [],
             mycomments:[]
         }
@@ -24,15 +30,15 @@ class Events extends React.Component {
                 this.setState({
                     all: this.state.all.concat(data)
                 });
-                
+                console.log(timestamp.now())
             })
     }
     
     
     /*
-    Add an input form for this
+    Add an input form for this (additional)
     
-    specific = (organiser) => {
+    filter = (organiser) => {
         
         fetch('http://eventmanager-server.herokuapp.com/events?organiser='+organiser)
             .then( (response) => {return response.json(); })
@@ -68,6 +74,62 @@ class Events extends React.Component {
     }
     
     
+    handlePostChange = (event) => {
+        event.preventDefault;
+        this.setState({
+            post: event.target.value 
+        });
+        
+    }
+    
+    handleOrganiserChange = (event) =>{
+        event.preventDefault;
+        this.setState({
+            organiser: event.target.value 
+        });
+        
+    }
+    
+    handleDateChange = (event) => {
+        event.preventDefault;
+        this.setState({
+            date: event.target.value 
+        });
+    }
+    
+    handlePriceChange = (event) => {
+        event.preventDefault;
+        this.setState({
+            price: event.target.value 
+        });
+    }
+    
+    
+    
+    handlePostSubmit = (event) => {
+        event.preventDefault;
+        fetch('http://eventmanager-server.herokuapp.com/events',{
+            method: 'POST',
+            body: JSON.stringify({
+                "title": this.state.post,
+                "date": this.state.date,
+                "organiser": this.state.organiser,
+                "price": this.state.price,
+                "createdAt": timestamp.now(),
+                "id": (this.state.all).length + 1
+            }),
+            headers: {"Content-Type": "application/json"}
+        })
+            .then( (response) => {return response.json(); })
+            .then( (data) => {
+                
+                console.log(data) 
+             })
+        
+    }
+    
+    
+    
     
     render(){
         
@@ -77,10 +139,35 @@ class Events extends React.Component {
         
         return(
             <div>
-                <h1>Working</h1>
+                
+                <h1>Event Manager</h1>
+                <br />
+                
+                <button> Filter </button>
+                <form onSubmit={this.handleFilterSubmit}>
+        		    <input onChange = {this.handleFilterChange} value = {this.state.input} />
+        	        <button type='submit'>Submit!</button>
+    		    </form>
+                
+                <br />
+                
+                <button style={{'marginTop': 10}}> Add Posts! </button>
+                <form onSubmit={this.handlePostSubmit}>
+        		    <input placeholder='Name your Post' onChange = {this.handlePostChange} value = {this.state.post} />
+        		    <input placeholder='Organiser name' onChange = {this.handleOrganiserChange} value = {this.state.organiser} />
+        		    <input placeholder='Date' onChange = {this.handleDateChange} value = {this.state.date} />
+        		    <input placeholder='Price' onChange = {this.handlePriceChange} value = {this.state.price} />
+        	        <button type='submit'>Submit!</button>
+    		    </form>
+                
+                
+                
+                
+                <br /> <br/>
                 <ul>
                     {items}
                     {this.state.mycomments}
+            
                 </ul>
             </div>
         );       
