@@ -14,8 +14,11 @@ class Events extends React.Component {
             organiser: '',
             date: '',
             price: '',
+            comment: '',
+            commentid: '',
             all: [],
-            mycomments:[]
+            mycomments:[],
+            allcomments:[]
         }
     }
     
@@ -24,7 +27,8 @@ class Events extends React.Component {
         fetch('http://eventmanager-server.herokuapp.com/events')
             .then( (response) => {return response.json(); })
             .then( (data) =>  {
-            
+                
+                console.log('Event Data:');
                 console.log(data);
                 
                 this.setState({
@@ -32,25 +36,25 @@ class Events extends React.Component {
                 });
                 console.log(timestamp.now())
             })
-    }
-    
-    
-    /*
-    Add an input form for this (additional)
-    
-    filter = (organiser) => {
-        
-        fetch('http://eventmanager-server.herokuapp.com/events?organiser='+organiser)
+            
+            
+        fetch('http://eventmanager-server.herokuapp.com/comments')
             .then( (response) => {return response.json(); })
-            .then( (data) => {
+            .then( (data) =>  {
+            
+                console.log('Comment Data:');
                 console.log(data);
-                const newitems= data.all.map((newitem,i) => {
-                    
-                })    
-            });
-        
+                
+                this.setState({
+                    allcomments: this.state.allcomments.concat(data)
+                });
+                console.log(timestamp.now())
+                console.log('Comment Data Length:');
+                console.log((this.state.allcomments).length)
+            })
     }
-    */
+    
+    
     
     details = (id) => {
         
@@ -70,6 +74,61 @@ class Events extends React.Component {
                     mycomments: [comments]
                 })
             });
+        
+    }
+    
+    
+    
+    handleFilterChange = (event) => {
+        event.preventDefault;
+        this.setState({
+            filter: event.target.value
+        })
+    }
+    
+    
+    handleFilterSubmit = () => {
+        
+        var url = "http://eventmanager-server.herokuapp.com/events?organiser="+(this.state.filter)
+        console.log(url)
+    }
+    
+    
+    
+    handleCommentChange = (event) => {
+        event.preventDefault;
+        this.setState({
+            comment: event.target.value 
+        });
+        
+    }
+    
+    handleCommentIdChange = (event) => {
+        event.preventDefault;
+        this.setState({
+            commentid: event.target.value 
+        });
+        
+    }
+    
+    
+    handleCommentSubmit = () => {
+        
+        fetch('http://eventmanager-server.herokuapp.com/comments',{
+            method: 'POST',
+            body: JSON.stringify({
+                "body": this.state.comment,
+                "postId": this.state.commentid,
+                "createdAt": timestamp.now(),
+                "id": (this.state.allcomments).length + 1
+            }),
+            headers: {"Content-Type": "application/json"}
+        })
+            .then( (response) => {return response.json(); })
+            .then( (data) => {
+                
+                console.log(data) 
+             })
         
     }
     
@@ -134,18 +193,20 @@ class Events extends React.Component {
     render(){
         
         const items= this.state.all.map((item,i) => {
-            return <li key={i}>{item.title} {item.organiser} <button onClick={() => this.details(item.id)} > More </button> </li>
+            return( <li key={i}>{item.title} by {item.organiser} <button onClick={() => this.details(item.id)} > More </button>
+                            
+            		        <br /><br />
+                    </li>
+                    
+            )
         })
         
         return(
             <div>
                 
-                <h1>Event Manager</h1>
-                <br />
-                
                 <button> Filter </button>
                 <form onSubmit={this.handleFilterSubmit}>
-        		    <input onChange = {this.handleFilterChange} value = {this.state.input} />
+        		    <input placeholder="Organiser Name" onChange = {this.handleFilterChange} value = {this.state.filter} />
         	        <button type='submit'>Submit!</button>
     		    </form>
                 
@@ -159,16 +220,23 @@ class Events extends React.Component {
         		    <input placeholder='Price' onChange = {this.handlePriceChange} value = {this.state.price} />
         	        <button type='submit'>Submit!</button>
     		    </form>
-                
-                
+    		    
+    		    <form onSubmit={this.handleCommentSubmit} style={{'marginTop': 10}}>
+        		    <input placeholder='Comment' onChange = {this.handleCommentChange} value = {this.state.comment} />
+        		    <input placeholder='Post Id' onChange = {this.handleCommentIdChange} value = {this.state.commentid} />
+        	        <button type='submit'>Submit!</button>
+    		    </form>
                 
                 
                 <br /> <br/>
+                
                 <ul>
                     {items}
                     {this.state.mycomments}
             
                 </ul>
+                
+                
             </div>
         );       
     }
