@@ -103,7 +103,7 @@ class Events extends React.Component {
     
     handleFilterSubmit = () => {
         
-        var url = "http://eventmanager-server.herokuapp.com/events?organiser="+(this.state.filter)
+        var url = "http://eventmanager-server.herokuapp.com/events?organiser=organiser 3"
         console.log(url)
     }
     
@@ -232,12 +232,16 @@ class Events extends React.Component {
                     <form onSubmit={this.handlePostSubmit} >
             		    <input placeholder='Name your Post' onChange = {this.handlePostChange} value = {this.state.post} className="form-control" />
             		    <input placeholder='Organiser name' onChange = {this.handleOrganiserChange} value = {this.state.organiser} className="form-control" />
-            		    <input placeholder='Date' onChange = {this.handleDateChange} value = {this.state.date} className="form-control" />
+            		    <input placeholder='Date (ex: November 5, 2017)' onChange = {this.handleDateChange} value = {this.state.date} className="form-control" />
             		    <input placeholder='Price' onChange = {this.handlePriceChange} value = {this.state.price} className="form-control" />
             	        <button type='submit' className="btn btn-success">Submit!</button>
         		    </form>
                 </div>
                 
+                <ul style={{backgroundColor: 'yellow', fontSize: '25px', textAlign: 'center', marginTop: '100px',}}>
+                    {this.state.mycomments}
+            
+                </ul>
                 
                 <h1 style={{fontSize:40, marginLeft:30, marginTop:50}}>Events</h1>
                 <ul style={pStyle}>
@@ -245,10 +249,6 @@ class Events extends React.Component {
             
                 </ul>
                 
-                <ul style={{backgroundColor: 'yellow', fontSize: '25px', textAlign: 'center', marginTop: '100px',}}>
-                    {this.state.mycomments}
-            
-                </ul>
                 
     		    
     		    <form onSubmit={this.handleCommentSubmit} style={{'marginTop': 10, 'marginBottom': 20}}>
