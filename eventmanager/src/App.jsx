@@ -23,7 +23,6 @@ class Events extends React.Component {
         super(props);
         this.state = {
             
-            filter: '',
             post: '',
             organiser: '',
             date: '',
@@ -72,7 +71,7 @@ class Events extends React.Component {
     
     details = (id) => {
         
-        fetch('http://eventmanager-server.herokuapp.com/comments')
+        fetch('https://eventmanager-server.herokuapp.com/comments')
             .then( (response) => {return response.json(); })
             .then( (data) => {
                 console.log(data);
@@ -89,22 +88,6 @@ class Events extends React.Component {
                 })
             });
         
-    }
-    
-    
-    
-    handleFilterChange = (event) => {
-        event.preventDefault;
-        this.setState({
-            filter: event.target.value
-        })
-    }
-    
-    
-    handleFilterSubmit = () => {
-        
-        var url = "http://eventmanager-server.herokuapp.com/events?organiser=organiser 3"
-        console.log(url)
     }
     
     
@@ -128,7 +111,7 @@ class Events extends React.Component {
     
     handleCommentSubmit = () => {
         
-        fetch('http://eventmanager-server.herokuapp.com/comments',{
+        fetch('https://eventmanager-server.herokuapp.com/comments',{
             method: 'POST',
             body: JSON.stringify({
                 "body": this.state.comment,
@@ -181,7 +164,7 @@ class Events extends React.Component {
     
     handlePostSubmit = (event) => {
         event.preventDefault;
-        fetch('http://eventmanager-server.herokuapp.com/events',{
+        fetch('https://eventmanager-server.herokuapp.com/events',{
             method: 'POST',
             body: JSON.stringify({
                 "title": this.state.post,
@@ -218,14 +201,6 @@ class Events extends React.Component {
         return(
             <div style={divStyle}>
                 
-                
-                <div style={{marginTop: '70px'}}>
-                    <p style={{fontSize:30, marginLeft:30}}> Add Filters </p> 
-                    <form onSubmit={this.handleFilterSubmit}>
-            		    <input placeholder="Organiser Name" onChange = {this.handleFilterChange} value = {this.state.filter} className="form-control" />
-            	        <button type='submit' className="btn btn-success">Submit!</button>
-        		    </form>
-                </div>
                
                <div style={{marginTop: '30px'}}>
                     <p style={{fontSize:30, marginLeft:30}}> Add New Posts </p>
