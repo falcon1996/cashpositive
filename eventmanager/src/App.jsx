@@ -3,6 +3,20 @@ import ReactDOM from 'react-dom';
 import "isomorphic-fetch";
 import timestamp from "unix-timestamp";
 
+
+const divStyle = {
+  margin: '40px',
+  border: '5px dashed pink'
+};
+
+const pStyle = {
+  fontSize: '25px',
+  textAlign: 'center',
+  marginTop: '100px',
+};
+
+
+
 class Events extends React.Component {
     
     constructor(props){
@@ -193,7 +207,7 @@ class Events extends React.Component {
     render(){
         
         const items= this.state.all.map((item,i) => {
-            return( <li key={i}>{item.title} by {item.organiser} <button onClick={() => this.details(item.id)} > More </button>
+            return( <li key={i}>{item.title} by {item.organiser} <button onClick={() => this.details(item.id)} className="btn btn-primary"> More </button>
                             
             		        <br /><br />
                     </li>
@@ -202,39 +216,46 @@ class Events extends React.Component {
         })
         
         return(
-            <div>
-                
-                <button> Filter </button>
-                <form onSubmit={this.handleFilterSubmit}>
-        		    <input placeholder="Organiser Name" onChange = {this.handleFilterChange} value = {this.state.filter} />
-        	        <button type='submit'>Submit!</button>
-    		    </form>
-                
-                <br />
-                
-                <button style={{'marginTop': 10}}> Add Posts! </button>
-                <form onSubmit={this.handlePostSubmit}>
-        		    <input placeholder='Name your Post' onChange = {this.handlePostChange} value = {this.state.post} />
-        		    <input placeholder='Organiser name' onChange = {this.handleOrganiserChange} value = {this.state.organiser} />
-        		    <input placeholder='Date' onChange = {this.handleDateChange} value = {this.state.date} />
-        		    <input placeholder='Price' onChange = {this.handlePriceChange} value = {this.state.price} />
-        	        <button type='submit'>Submit!</button>
-    		    </form>
-    		    
-    		    <form onSubmit={this.handleCommentSubmit} style={{'marginTop': 10}}>
-        		    <input placeholder='Comment' onChange = {this.handleCommentChange} value = {this.state.comment} />
-        		    <input placeholder='Post Id' onChange = {this.handleCommentIdChange} value = {this.state.commentid} />
-        	        <button type='submit'>Submit!</button>
-    		    </form>
+            <div style={divStyle}>
                 
                 
-                <br /> <br/>
+                <div style={{marginTop: '70px'}}>
+                    <p style={{fontSize:30, marginLeft:30}}> Add Filters </p> 
+                    <form onSubmit={this.handleFilterSubmit}>
+            		    <input placeholder="Organiser Name" onChange = {this.handleFilterChange} value = {this.state.filter} className="form-control" />
+            	        <button type='submit' className="btn btn-success">Submit!</button>
+        		    </form>
+                </div>
+               
+               <div style={{marginTop: '30px'}}>
+                    <p style={{fontSize:30, marginLeft:30}}> Add New Posts </p>
+                    <form onSubmit={this.handlePostSubmit} >
+            		    <input placeholder='Name your Post' onChange = {this.handlePostChange} value = {this.state.post} className="form-control" />
+            		    <input placeholder='Organiser name' onChange = {this.handleOrganiserChange} value = {this.state.organiser} className="form-control" />
+            		    <input placeholder='Date' onChange = {this.handleDateChange} value = {this.state.date} className="form-control" />
+            		    <input placeholder='Price' onChange = {this.handlePriceChange} value = {this.state.price} className="form-control" />
+            	        <button type='submit' className="btn btn-success">Submit!</button>
+        		    </form>
+                </div>
                 
-                <ul>
+                
+                <h1 style={{fontSize:40, marginLeft:30, marginTop:50}}>Events</h1>
+                <ul style={pStyle}>
                     {items}
+            
+                </ul>
+                
+                <ul style={{backgroundColor: 'yellow', fontSize: '25px', textAlign: 'center', marginTop: '100px',}}>
                     {this.state.mycomments}
             
                 </ul>
+                
+    		    
+    		    <form onSubmit={this.handleCommentSubmit} style={{'marginTop': 10, 'marginBottom': 20}}>
+        		    <input placeholder='Comment' onChange = {this.handleCommentChange} value = {this.state.comment} className="form-control" />
+        		    <input placeholder='Post Id' onChange = {this.handleCommentIdChange} value = {this.state.commentid} className="form-control" />
+        	        <button type='submit' className="btn btn-success">Submit!</button>
+    		    </form>
                 
                 
             </div>
